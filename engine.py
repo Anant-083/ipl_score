@@ -1,25 +1,23 @@
 import os
 import httpx
 from dotenv import load_dotenv
- 
+
 load_dotenv()
- 
+
 API_KEY = os.getenv("API_TOKEN")
 API_HOST = os.getenv("API_HOST")
- 
+
 async def get_live_scores():
-    # Try live first, fall back to upcoming if nothing live
     url = f"https://{API_HOST}/matches/live"
-    params = {}
     headers = {
         "x-rapidapi-key": API_KEY,
         "x-rapidapi-host": API_HOST
     }
- 
+
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(url, headers=headers, params=params, timeout=15.0)
- 
+            response = await client.get(url, headers=headers, timeout=15.0)
+
             if response.status_code != 200:
                 return {
                     "matches": [{
@@ -32,46 +30,43 @@ async def get_live_scores():
                         "isLive": False
                     }]
                 }
- 
+
             data = response.json()
             matches = []
- 
-            IPL_KEYWORDS = ["IPL", "INDIAN PREMIER LEAGUE", "T20"]
+
+            IPL_KEYWORDS = ["IPL", "INDIAN PREMIER LEAGUE"]
             TEAM_SHORTS = {
                 "MUMBAI": "MI", "CHENNAI": "CSK", "KOLKATA": "KKR",
                 "RAJASTHAN": "RR", "DELHI": "DC", "PUNJAB": "PBKS",
                 "HYDERABAD": "SRH", "SUNRISERS": "SRH", "BANGALORE": "RCB",
                 "BENGALURU": "RCB", "LUCKNOW": "LSG", "GUJARAT": "GT"
             }
- 
+
             def get_short(name):
                 upper = name.upper()
                 for key, short in TEAM_SHORTS.items():
                     if key in upper:
                         return short
-                # fallback: first 3 letters
                 return name[:3].upper()
- 
+
             for match_type in data.get('typeMatches', []):
                 for series in match_type.get('seriesMatches', []):
                     wrapper = series.get('seriesAdWrapper', series)
                     series_name = wrapper.get('seriesName', '')
- 
-                    # Only IPL series
+
                     if not any(k in series_name.upper() for k in IPL_KEYWORDS):
                         continue
- 
+
                     for m in wrapper.get('matches', []):
-                        mi = m.get('matchInfo', m)  # some APIs wrap in matchInfo
+                        mi = m.get('matchInfo', m)
                         ms = m.get('matchScore', {})
- 
+
                         t1_name = mi.get('team1', {}).get('teamName', 'TBD')
                         t2_name = mi.get('team2', {}).get('teamName', 'TBD')
- 
-                        # Score strings
+
                         t1_score = ms.get('team1Score', {})
                         t2_score = ms.get('team2Score', {})
- 
+
                         def fmt_score(sc):
                             inn = sc.get('inngs1', {})
                             if inn:
@@ -82,7 +77,7 @@ async def get_live_scores():
                                     wkt_str = f"/{wkts}" if wkts != '' and int(str(wkts)) < 10 else ""
                                     return f"{runs}{wkt_str} ({overs} ov)"
                             return ""
- 
+
                         matches.append({
                             "title": f"{t1_name} vs {t2_name}",
                             "team1": t1_name,
@@ -96,25 +91,24 @@ async def get_live_scores():
                             "seriesName": series_name,
                             "isLive": True
                         })
- 
+
             if not matches:
-                # No live IPL — try upcoming instead
                 upcoming = await get_upcoming_matches()
                 if upcoming:
                     return {"matches": upcoming}
                 return {
                     "matches": [{
-                        "title": "No Live IPL Matches",
+                        "title": "No IPL Matches Right Now",
                         "team1": "—", "team1Short": "—", "score1": "",
                         "team2": "—", "team2Short": "—", "score2": "",
-                        "status": "Check back when an IPL match is live",
+                        "status": "No IPL matches live or upcoming",
                         "matchDesc": "", "seriesName": "IPL 2026",
                         "isLive": False
                     }]
                 }
- 
+
             return {"matches": matches}
- 
+
     except Exception as e:
         return {
             "matches": [{
@@ -126,10 +120,9 @@ async def get_live_scores():
                 "isLive": False
             }]
         }
- 
- 
+
+
 async def get_points_table():
-    """Fetch IPL 2026 points table."""
     SERIES_ID = "9241"
     url = f"https://{API_HOST}/series/{SERIES_ID}/pointtable"
     headers = {
@@ -155,15 +148,13 @@ async def get_points_table():
                         "points": entry.get('points', 0),
                         "nrr": entry.get('nrr', '0.000'),
                     })
-            # Sort by points desc, then nrr desc
             teams.sort(key=lambda x: (int(x['points']), float(x['nrr'])), reverse=True)
             return teams
     except Exception:
         return []
- 
- 
+
+
 async def get_upcoming_matches():
-    """Fetch upcoming IPL matches as fallback when nothing is live."""
     url = f"https://{API_HOST}/matches/upcoming"
     headers = {
         "x-rapidapi-key": API_KEY,
@@ -176,13 +167,14 @@ async def get_upcoming_matches():
         "HYDERABAD": "SRH", "SUNRISERS": "SRH", "BANGALORE": "RCB",
         "BENGALURU": "RCB", "LUCKNOW": "LSG", "GUJARAT": "GT"
     }
+
     def get_short(name):
         upper = name.upper()
         for key, short in TEAM_SHORTS.items():
             if key in upper:
                 return short
         return name[:3].upper()
- 
+
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=headers, timeout=15.0)
@@ -200,7 +192,6 @@ async def get_upcoming_matches():
                         mi = m.get('matchInfo', m)
                         t1 = mi.get('team1', {}).get('teamName', 'TBD')
                         t2 = mi.get('team2', {}).get('teamName', 'TBD')
-                        date = mi.get('startDate', '')
                         matches.append({
                             "title": f"{t1} vs {t2}",
                             "team1": t1, "team1Short": get_short(t1), "score1": "",
@@ -210,6 +201,6 @@ async def get_upcoming_matches():
                             "seriesName": series_name,
                             "isLive": False
                         })
-            return matches[:5]  # show max 5 upcoming
+            return matches[:5]
     except Exception:
         return []
