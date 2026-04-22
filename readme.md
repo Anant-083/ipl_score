@@ -1,65 +1,89 @@
-# 🏏 IPL Score Live
+# 🏏 IPL Score — Live Cricket Web App
 
-A real-time IPL 2026 dashboard providing live scorecards, detailed points tables, and upcoming fixtures. Built with a high-performance FastAPI backend and a sleek, responsive vanilla JS frontend.
-
-![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?style=flat-square&logo=fastapi)
-![Render](https://img.shields.io/badge/Deployed-Render-purple?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-
----
-
-## 🌐 Live Demo
-
-**👉 [View Live Project](https://ipl-score-dx4s.onrender.com/static/index.html)**
-
-> ⚠️ **Note:** Hosted on Render's free tier. If the site is "sleeping," it may take **30–50 seconds** to spin up on the first visit.
+<p align="center">
+  <a href="https://ipl-score-dx4s.onrender.com/static/index.html">
+    <img src="https://img.shields.io/badge/Live-Demo-00c853?style=for-the-badge&logo=render&logoColor=white" />
+  </a>
+  <a href="https://github.com/Anant-083/ipl_score">
+    <img src="https://img.shields.io/badge/GitHub-Repo-181717?style=for-the-badge&logo=github" />
+  </a>
+</p>
 
 ---
 
-## 📸 Preview
-
-| Live Match Dashboard | Points Table & Standings |
-|---|---|
-| ![Scorecard Placeholder](https://via.placeholder.com/400x250?text=Live+Scorecard+Preview) | ![Table Placeholder](https://via.placeholder.com/400x250?text=IPL+Points+Table+Preview) |
+## ✨ Overview
+A minimal, real-time IPL scorecard web app built using **FastAPI** and the **Cricbuzz API**.
 
 ---
 
-## ✨ Features
+## 🚀 Live Demo  
+https://ipl-score-dx4s.onrender.com/static/index.html
 
-- 🔴 **Live Ball-by-Ball Updates** — Real-time match data fetched via Cricbuzz API.
-- 📅 **Smart Fixtures** — Automatically displays upcoming matches when no game is live.
-- 📊 **Advanced Standings** — Points table with Wins, Losses, and Net Run Rate (NRR).
-- 🎨 **Team-Specific UI** — Dynamic color badges tailored to each IPL franchise.
-- ⚡ **Optimized Performance** — Auto-refreshes every 5 minutes to stay current without hitting API limits.
-- 📱 **Mobile First** — Fully responsive design for checking scores on the go.
-- 🌙 **Modern Dark Theme** — Minimalist aesthetic designed for night-match viewing.
+---
+
+## 🎯 Features
+- Live IPL match scores  
+- Upcoming fixtures  
+- Points table with NRR  
+- Auto-refresh every 5 minutes  
 
 ---
 
 ## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| **Backend** | FastAPI (Python 3.11), `httpx` for async requests |
-| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
-| **Data Source** | Cricbuzz API via RapidAPI |
-| **Deployment** | Render (Web Service) |
-| **Environment** | `python-dotenv` for secure credential management |
+- Backend: FastAPI, Python  
+- Frontend: HTML, CSS, JavaScript  
+- API: Cricbuzz (RapidAPI)  
+- Deployment: Render  
 
 ---
 
 ## 📁 Project Structure
-
-```text
+```
 ipl_score/
 ├── frontend/
-│   ├── index.html       # Main UI structure
-│   ├── style.css        # Custom CSS with Dark Mode variables
-│   └── app.js           # Fetch logic & DOM manipulation
-├── engine.py            # API Wrapper & Data Parsing
-├── main.py              # FastAPI Application & Static Routing
-├── manager.py           # Logic for handling concurrent updates
-├── requirements.txt     # Dependency manifest
-├── .env.example         # Template for API keys
-└── README.md
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── engine.py
+├── main.py
+├── manager.py
+├── requirements.txt
+└── .env
+```
+
+---
+
+## ⚙️ Setup Locally
+```
+git clone https://github.com/Anant-083/ipl_score.git
+cd ipl_score
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+Create `.env`:
+```
+API_TOKEN=your_key
+API_HOST=cricbuzz-cricket.p.rapidapi.com
+```
+
+Open:
+```
+http://localhost:8000/static/index.html
+```
+
+---
+
+## ☁️ Deployment
+```
+uvicorn main:app --host 0.0.0.0 --port 10000
+```
+
+---
+
+## 👨‍💻 Author
+Anant Paul — https://github.com/Anant-083
+
+---
+
+## ⭐ Star this repo if you like it
