@@ -124,7 +124,7 @@ async def get_live_scores():
 
 async def get_points_table():
     SERIES_ID = "9241"
-    url = f"https://{API_HOST}/series/v1/{SERIES_ID}/pointtable"
+    url = f"https://{API_HOST}/stats/v1/series/{SERIES_ID}/points-table"
     headers = {
         "x-rapidapi-key": API_KEY,
         "x-rapidapi-host": API_HOST
