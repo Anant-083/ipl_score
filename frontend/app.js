@@ -1,9 +1,3 @@
-// ─── Dynamic WebSocket URL ─────────────────────────────────────
-// Works on localhost AND Render without changing this code.
-const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const host     = window.location.host; // e.g. localhost:8000 or yourapp.onrender.com
-const socket   = new WebSocket(`${protocol}//${host}/ws/live`);
-
 // ─── Elements ──────────────────────────────────────────────────
 const pill        = document.getElementById('live-pill');
 const pillText    = document.getElementById('pill-text');
@@ -14,7 +8,6 @@ const container   = document.getElementById('matches-container');
 function setStatus(state) {
     pill.className = 'live-pill';
     if (state === 'live') {
-        pill.classList.add('');       // green by default
         pillText.textContent = 'LIVE';
     } else if (state === 'connecting') {
         pill.classList.add('connecting');
@@ -118,7 +111,6 @@ function renderPointsTable(teams) {
             <div style="text-align:center">NRR</div>
         </div>`;
 
-    // Playoff zone label after 4th team
     teams.forEach((team, i) => {
         if (i === 4) {
             html += `<div class="playoff-label">▲ PLAYOFF ZONE</div>`;
@@ -152,29 +144,21 @@ function renderPointsTable(teams) {
     container.innerHTML = html;
 }
 
-
-socket.onopen = () => {
-    console.log('✅ Connected to backend');
-    setStatus('live');
-};
-
-socket.onmessage = (event) => {
+// ─── Fetch data ─────────────────────────────────────────────────
+async function fetchData() {
+    setStatus('connecting');
     try {
-        const data = JSON.parse(event.data);
-        console.log('📡 Data received:', data);
+        const res = await fetch('/api/live');
+        const data = await res.json();
         renderMatches(data);
         if (data.pointsTable) renderPointsTable(data.pointsTable);
+        setStatus('live');
     } catch (err) {
-        console.error('Parse error:', err);
+        console.error('Fetch error:', err);
+        setStatus('disconnected');
     }
-};
+}
 
-socket.onclose = () => {
-    console.warn('❌ Disconnected');
-    setStatus('disconnected');
-};
-
-socket.onerror = (err) => {
-    console.error('WebSocket error:', err);
-    setStatus('disconnected');
-};
+// Fetch on load, then every 5 minutes
+fetchData();
+setInterval(fetchData, 300000);
