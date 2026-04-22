@@ -1,0 +1,442 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg:        #0b0e14;
+    --bg2:       #12161f;
+    --bg3:       #1a2030;
+    --border:    #252c3d;
+    --yellow:    #f5a623;
+    --yellow2:   #ffd166;
+    --green:     #06d6a0;
+    --red:       #ef233c;
+    --text:      #e8eaf0;
+    --muted:     #6b7280;
+    --card-glow: rgba(245, 166, 35, 0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+}
+
+.header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex: 1;
+}
+
+.logo-ipl {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.logo-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+}
+
+/* Live pill */
+.live-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: rgba(6, 214, 160, 0.1);
+    border: 1px solid rgba(6, 214, 160, 0.3);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--green);
+    transition: all 0.3s;
+}
+
+.live-pill.disconnected {
+    background: rgba(239, 35, 60, 0.1);
+    border-color: rgba(239, 35, 60, 0.3);
+    color: var(--red);
+}
+
+.live-pill.connecting {
+    background: rgba(107, 114, 128, 0.1);
+    border-color: rgba(107, 114, 128, 0.3);
+    color: var(--muted);
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.last-updated {
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* ===== MAIN ===== */
+main {
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 28px 20px;
+}
+
+.section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ===== MATCH CARD ===== */
+.match-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.4s ease both;
+}
+
+.match-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--card-glow);
+    border-color: rgba(245, 166, 35, 0.25);
+}
+
+/* Yellow left accent bar */
+.match-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--yellow), var(--yellow2));
+    border-radius: 4px 0 0 4px;
+}
+
+.match-card.not-live::before {
+    background: var(--border);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Series name top */
+.card-series {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.card-series.no-match {
+    color: var(--muted);
+}
+
+/* Teams row */
+.teams-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.team-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.team-block.right {
+    text-align: right;
+    align-items: flex-end;
+}
+
+.team-short {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: 1px;
+}
+
+.team-full {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.team-score {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--yellow2);
+    margin-top: 4px;
+    min-height: 1.4rem;
+}
+
+/* VS divider */
+.vs-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.vs-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--border);
+    letter-spacing: 2px;
+}
+
+.vs-line {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+}
+
+/* Status bar */
+.card-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.83rem;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    animation: pulse 1.4s infinite;
+}
+
+.status-dot.inactive {
+    background: var(--muted);
+    animation: none;
+}
+
+/* Match desc badge */
+.match-desc {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: auto;
+}
+
+/* ===== SKELETON LOADER ===== */
+.skeleton-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.sk {
+    background: linear-gradient(90deg, var(--bg3) 25%, #1e2535 50%, var(--bg3) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+}
+
+.sk-title  { height: 12px; width: 40%; margin-bottom: 20px; }
+.sk-score  { height: 40px; width: 70%; margin-bottom: 16px; }
+.sk-status { height: 36px; width: 100%; border-radius: 8px; }
+
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+}
+
+/* ===== POINTS TABLE ===== */
+.points-table {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.pt-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
+    padding: 10px 16px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+.pt-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+    animation: fadeUp 0.3s ease both;
+}
+
+.pt-row:last-child { border-bottom: none; }
+.pt-row:hover { background: var(--bg3); }
+
+/* Top 4 playoff zone */
+.pt-row.playoff {
+    border-left: 3px solid var(--green);
+}
+
+.pt-team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.team-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.pt-team-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.pt-team-full {
+    font-size: 0.7rem;
+    color: var(--muted);
+}
+
+.pt-cell {
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.pt-cell.points {
+    font-weight: 700;
+    color: var(--yellow2);
+    font-size: 0.95rem;
+}
+
+.pt-cell.nrr {
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+.pt-cell.nrr.positive { color: var(--green); }
+.pt-cell.nrr.negative { color: var(--red); }
+
+.playoff-label {
+    font-size: 0.62rem;
+    color: var(--green);
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-top: 8px;
+    padding: 4px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(6, 214, 160, 0.05);
+}
+
+@media (max-width: 480px) {
+    .pt-header, .pt-row {
+        grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
+    }
+    /* Hide lost and noResult on mobile */
+    .pt-header > *:nth-child(4),
+    .pt-row > *:nth-child(4),
+    .pt-header > *:nth-child(5),
+    .pt-row > *:nth-child(5) {
+        display: none;
+    }
+}
+@media (max-width: 480px) {
+    .team-short { font-size: 1.8rem; }
+    .header-inner { padding: 12px 16px; }
+    .last-updated { display: none; }
+    main { padding: 20px 14px; }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL 2026 Live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-ipl">IPL</span>
+                <span class="logo-year">2026</span>
+            </div>
+            <div class="live-pill" id="live-pill">
+                <span class="dot"></span>
+                <span id="pill-text">CONNECTING</span>
+            </div>
+            <div class="last-updated" id="last-updated">—</div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div class="section-label">LIVE MATCHES</div>
+        <div id="matches-container">
+            <div class="skeleton-card">
+                <div class="sk sk-title"></div>
+                <div class="sk sk-score"></div>
+                <div class="sk sk-status"></div>
+            </div>
+        </div>
+
+        <div class="section-label" style="margin-top: 36px;">POINTS TABLE</div>
+        <div id="points-table-container">
+            <div class="skeleton-card">
+                <div class="sk sk-title"></div>
+                <div class="sk sk-score"></div>
+                <div class="sk sk-status"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Powered by Cricbuzz API · Data updates every 5 minutes</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
