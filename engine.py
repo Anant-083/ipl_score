@@ -8,7 +8,7 @@ API_KEY = os.getenv("API_TOKEN")
 API_HOST = os.getenv("API_HOST")
 
 async def get_live_scores():
-    url = f"https://{API_HOST}/matches/live"
+    url = f"https://{API_HOST}/matches/v1/live"
     headers = {
         "x-rapidapi-key": API_KEY,
         "x-rapidapi-host": API_HOST
@@ -124,7 +124,7 @@ async def get_live_scores():
 
 async def get_points_table():
     SERIES_ID = "9241"
-    url = f"https://{API_HOST}/series/{SERIES_ID}/pointtable"
+    url = f"https://{API_HOST}/series/v1/{SERIES_ID}/pointtable"
     headers = {
         "x-rapidapi-key": API_KEY,
         "x-rapidapi-host": API_HOST
@@ -155,7 +155,7 @@ async def get_points_table():
 
 
 async def get_upcoming_matches():
-    url = f"https://{API_HOST}/matches/upcoming"
+    url = f"https://{API_HOST}/matches/v1/upcoming"
     headers = {
         "x-rapidapi-key": API_KEY,
         "x-rapidapi-host": API_HOST
