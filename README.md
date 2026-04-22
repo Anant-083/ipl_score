@@ -1,51 +1,89 @@
 # 🏏 IPL Score — Live Cricket Web App
 
-A minimal, real-time IPL scorecard web app built with FastAPI and Cricbuzz API.
+<p align="center">
+  <a href="https://ipl-score-dx4s.onrender.com/static/index.html">
+    <img src="https://img.shields.io/badge/Live-Demo-00c853?style=for-the-badge&logo=render&logoColor=white" />
+  </a>
+  <a href="https://github.com/Anant-083/ipl_score">
+    <img src="https://img.shields.io/badge/GitHub-Repo-181717?style=for-the-badge&logo=github" />
+  </a>
+</p>
 
-## 🔗 Live Demo
+---
+
+## ✨ Overview
+A minimal, real-time IPL scorecard web app built using **FastAPI** and the **Cricbuzz API**.
+
+---
+
+## 🚀 Live Demo  
 https://ipl-score-dx4s.onrender.com/static/index.html
 
-## ✨ Features
-- Live IPL match scores
-- Upcoming IPL fixtures (fallback when nothing is live)
-- IPL 2026 Points Table with NRR
-- Auto-refreshes every 5 minutes
-- Clean dark UI with team colors
+---
+
+## 🎯 Features
+- Live IPL match scores  
+- Upcoming fixtures  
+- Points table with NRR  
+- Auto-refresh every 5 minutes  
+
+---
 
 ## 🛠️ Tech Stack
-- **Backend:** FastAPI, Python, httpx
-- **Frontend:** HTML, CSS, Vanilla JavaScript
-- **Data:** Cricbuzz API via RapidAPI
-- **Deployment:** Render
+- Backend: FastAPI, Python  
+- Frontend: HTML, CSS, JavaScript  
+- API: Cricbuzz (RapidAPI)  
+- Deployment: Render  
+
+---
 
 ## 📁 Project Structure
+```
 ipl_score/
 ├── frontend/
 │   ├── index.html
 │   ├── style.css
 │   └── app.js
-├── engine.py       # API calls to Cricbuzz
-├── main.py         # FastAPI app
-├── manager.py      # Connection manager
+├── engine.py
+├── main.py
+├── manager.py
 ├── requirements.txt
-└── .env            # API keys (not committed)
+└── .env
+```
+
+---
 
 ## ⚙️ Setup Locally
-1. Clone the repo
-2. Create `.env` file:
-API_TOKEN=your_rapidapi_key
-API_HOST=cricbuzz-cricket.p.rapidapi.com
-3. Install dependencies:
+```
+git clone https://github.com/Anant-083/ipl_score.git
+cd ipl_score
 pip install -r requirements.txt
-4. Run:
 uvicorn main:app --reload
-5. Open `http://localhost:8000/static/index.html`
+```
 
-## 🚀 Deployment
-Deployed on Render free tier. Environment variables set in Render dashboard.
+Create `.env`:
+```
+API_TOKEN=your_key
+API_HOST=cricbuzz-cricket.p.rapidapi.com
+```
 
-**Start command:**
+Open:
+```
+http://localhost:8000/static/index.html
+```
+
+---
+
+## ☁️ Deployment
+```
 uvicorn main:app --host 0.0.0.0 --port 10000
+```
+
+---
 
 ## 👨‍💻 Author
-Anant Paul — [GitHub](https://github.com/Anant-083)
+Anant Paul — https://github.com/Anant-083
+
+---
+
+## ⭐ Star this repo if you like it
