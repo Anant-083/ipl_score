@@ -122,7 +122,7 @@ python-dotenv
 
 **Anant Paul**
 - 🐙 GitHub: [@Anant-083](https://github.com/Anant-083)
-- 🎓 B.Tech CSE (AI & ML) — Semester 4
+- 🎓 B.Tech CSE (AI & ML) 
 
 ---
 
