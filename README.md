@@ -49,8 +49,8 @@ A minimal, real-time IPL scorecard web app built using **FastAPI** and the **Cri
 | Deployment | Render (Free Tier) |
 
 ---
-```
 ## 📁 Project Structure
+```
 ipl_score/
 ├── frontend/
 │   ├── index.html       # Main UI
@@ -59,9 +59,9 @@ ipl_score/
 ├── engine.py            # Cricbuzz API integration
 ├── main.py              # FastAPI routes
 ├── requirements.txt     # Python dependencies
-└── .env                 # API keys 
----
+└── .env                 # API keys
 ```
+---
 ## ⚙️ Setup Locally
 
 **1. Clone the repository**
@@ -107,17 +107,16 @@ http://localhost:8000/static/index.html
 5. Add Environment Variables:
    - `API_TOKEN` → your RapidAPI key
    - `API_HOST` → `cricbuzz-cricket.p.rapidapi.com`
-```
 ---
 
 ## 📦 Requirements
+```
 fastapi
 uvicorn
 httpx
 python-dotenv
-
----
 ```
+---
 ## 👨‍💻 Author
 
 **Anant Paul**
